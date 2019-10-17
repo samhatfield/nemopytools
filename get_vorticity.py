@@ -9,6 +9,7 @@ parameter in `&namdom` to `.true.`.
 from cdfcurl import cdfcurl
 from iris import load_cube, save
 from argparse import ArgumentParser
+from cf_units import Unit
 
 parser = ArgumentParser(description="Computes vorticity from given U and V fluid velocity fields" +
                         " and outputs on the same grid as the given temperature field. Intended" +
@@ -36,6 +37,8 @@ args = parser.parse_args()
 # Load temperature cube and copy it
 t_cube = load_cube(args.t_file, args.t_stanname)
 vor_cube = t_cube[:, ...].copy()
+vor_cube.rename("vorticity")
+vor_cube.units = Unit("s**-1")
 
 # Compute vorticity for each time step in the output cube
 for t in range(t_cube.shape[0]):
@@ -46,5 +49,4 @@ for t in range(t_cube.shape[0]):
                                               kt=t,
                                               loverf=True)
 
-vor_cube.rename("vorticity")
 save(vor_cube, args.output_filename)
