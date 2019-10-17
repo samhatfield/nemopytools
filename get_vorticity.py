@@ -39,7 +39,7 @@ vor_cube = t_cube[:, ...].copy()
 
 # Compute vorticity for each time step in the output cube
 for t in range(t_cube.shape[0]):
-    print(f"Processing timestep {t} of {t_cube.shape[0]}")
+    print(f"Processing timestep {t+1} of {t_cube.shape[0]}")
     _, _, vor_cube.data[t, :, :], _ = cdfcurl(args.u_file, args.u_varname,
                                               args.v_file, args.v_varname,
                                               args.mesh_mask_file,
